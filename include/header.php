@@ -156,6 +156,8 @@
       cursor: pointer;
       transition: opacity .2s;
       white-space: nowrap;
+      text-decoration: none;
+      
     }
 
     .btn-admin:hover { opacity: .88; }
@@ -170,6 +172,11 @@
     @media (max-width: 680px) {
       .nav-links { display: none; }
       .nav-search { max-width: 160px; }
+    }
+
+    a .styl{
+      color: #fff;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -222,7 +229,7 @@
       </button>
 
       <!-- Admin -->
-      <button class="btn-admin"><a href="Authentification/connect_admin.php">Admin</a></button>
+      <button class="btn-admin"><a  href="Authentification/connect_admin.php">Admin</a></button>
     </div>
   </nav>
 
