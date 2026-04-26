@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,6 +41,7 @@
           </svg>
         </span>
         <input type="password" id="password" name="pwd" placeholder="••••••••" />
+        <!-- Bouton œil : reste <button> car il déclenche du JS, pas une navigation -->
         <button class="eye-btn" type="button" onclick="togglePwd()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>
@@ -59,10 +54,11 @@
       <label class="remember">
         <input type="checkbox" id="remember" name="rmb"/> Rester connecté
       </label>
-      <a href="#" class="forgot">Mot de passe oublié ?</a>
+      <a href="mot-de-passe-oublie.php" class="forgot">Mot de passe oublié ?</a>
     </div>
 
-    <button class="btn-connect" type="button">Se connecter</button>
+    <!-- ✅ button → <a> -->
+    <a href="dashboard.php" class="btn-connect">Se connecter</a>
 
     <div class="test-box">
       <strong>Informations de test :</strong><br/>
@@ -71,7 +67,7 @@
     </div>
   </div>
 
-  <a href="#" class="back-link">← Retour au site</a>
+  <a href="index.php" class="back-link">← Retour au site</a>
 
   <div class="secure-box">
     <div class="secure-icon">
