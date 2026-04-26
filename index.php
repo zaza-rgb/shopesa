@@ -5,16 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShopStyle – Accueil</title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
- 
   <link rel="stylesheet" href="css/index.css" />
+  <style>
+    /* ── CARD ACTIONS ── */
+    .card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-cart {
+      flex: 1;
+      padding: 10px 8px;
+      background: linear-gradient(90deg, #e040c8, #9c27b0);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity .2s, transform .1s;
+      text-decoration: none;
+    }
+
+    .btn-cart:hover  { opacity: .88; }
+    .btn-cart:active { transform: scale(.97); }
+
+    .btn-details {
+      padding: 10px 12px;
+      background: transparent;
+      border: 1.5px solid #2a2f4a;
+      border-radius: 8px;
+      color: #e8eaf6;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: border-color .2s, color .2s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-details:hover {
+      border-color: #e040c8;
+      color: #e040c8;
+    }
+  </style>
 </head>
 <body>
   <?php include 'include/header.php'; ?>
+
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
       <h1>Besoin d'article de toute urgence !</h1>
-      
       <p>Bingo !, vous êtes au bon endroit, Découvrez les dernières tendances mode</p>
       <a href="#" class="btn-hero">Découvrir maintenant</a>
     </div>
@@ -33,38 +91,107 @@
     </div>
 
     <div class="grid">
+
+      <!-- Card 1 -->
       <div class="card">
         <div class="card-img"></div>
         <div class="card-body">
           <p class="card-cat">Accessoires</p>
           <p class="card-name">Casquette Vintage</p>
           <p class="card-price">39.99€</p>
+          <div class="card-actions">
+            <a href="" class="btn-cart">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Ajouter
+            </a>
+            <a href="panier/detai.php" class="btn-details">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+              Détails
+            </a>
+          </div>
         </div>
       </div>
+
+      <!-- Card 2 -->
       <div class="card">
         <div class="card-img"></div>
         <div class="card-body">
           <p class="card-cat">Vêtements</p>
           <p class="card-name">T-Shirt Premium</p>
           <p class="card-price">49.99€</p>
+          <div class="card-actions">
+            <a href="panier.php?action=add&id=2" class="btn-cart">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Ajouter
+            </a>
+            <a href="produit.php?id=2" class="btn-details">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+              Détails
+            </a>
+          </div>
         </div>
       </div>
+
+      <!-- Card 3 -->
       <div class="card">
         <div class="card-img"></div>
         <div class="card-body">
           <p class="card-cat">Vêtements</p>
           <p class="card-name">Jean Slim Fit</p>
           <p class="card-price">79.99€</p>
+          <div class="card-actions">
+            <a href="panier.php?action=add&id=3" class="btn-cart">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Ajouter
+            </a>
+            <a href="produit.php?id=3" class="btn-details">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+              Détails
+            </a>
+          </div>
         </div>
       </div>
+
+      <!-- Card 4 -->
       <div class="card">
         <div class="card-img"></div>
         <div class="card-body">
           <p class="card-cat">Vêtements</p>
           <p class="card-name">Veste en Cuir</p>
           <p class="card-price">349.99€</p>
+          <div class="card-actions">
+            <a href="panier.php?action=add&id=4" class="btn-cart">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Ajouter
+            </a>
+            <a href="produit.php?id=4" class="btn-details">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+              </svg>
+              Détails
+            </a>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -75,7 +202,6 @@
         <span class="brand-name">ShopStyle</span>
         <p>Votre destination mode en ligne</p>
       </div>
-
       <div class="footer-col">
         <h4>Boutique</h4>
         <ul>
@@ -84,7 +210,6 @@
           <li><a href="#">Collections</a></li>
         </ul>
       </div>
-
       <div class="footer-col">
         <h4>Service client</h4>
         <ul>
@@ -93,7 +218,6 @@
           <li><a href="#">Retours</a></li>
         </ul>
       </div>
-
       <div class="footer-newsletter">
         <h4>Newsletter</h4>
         <p>Restez informé des nouveautés</p>
@@ -103,7 +227,6 @@
         </div>
       </div>
     </div>
-
     <div class="footer-bottom">
       © 2026 ShopStyle. Tous droits réservés.
     </div>
