@@ -83,10 +83,24 @@
     <div class="products-header">
       <h2>Produits populaires</h2>
       <div class="filters">
-        <button class="filter-btn active">Tous</button>
-        <button class="filter-btn">Vêtements</button>
-        <button class="filter-btn">Accessoires</button>
-        <button class="filter-btn">Chaussures</button>
+        <form method="post" action="index.php">
+        <button type="submit" class="filter-btn active">Tous</button>
+        <?php
+       require 'liaison.php'; 
+      try{
+         $stmt = $com->query("SELECT nom FROM categorie ");
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              ?>
+              <button type="submit" name="cate_retour" value="<?php echo $row['nom']; ?>" class="filter-btn">
+                <?php echo $row['nom']; ?>
+              </button>
+              <?php
+                }
+            } catch (PDOException $e) {
+                echo "Erreur : " . $e->getMessage();
+            }
+            ?>
+            </form>
       </div>
     </div>
 
@@ -96,7 +110,13 @@
        <?php
        require 'liaison.php'; 
       try{
-         $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ");
+        if (isset($_POST['cate_retour']) && ($_SERVER["REQUEST_METHOD"] == "POST")){
+          $cate=$_POST['cate_retour'];
+          $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE categorie.nom = ? ");
+          $stmt->execute([$cate]);
+        }else {
+            $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ");
+        }
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               ?>
             <form method="post" action="panier/selectSQL.php">

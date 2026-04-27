@@ -372,7 +372,7 @@
         </svg>
         Dashboard
       </a>
-      <a href="produits.php" class="nav-link">
+      <a href="ajoutprod.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
@@ -398,7 +398,7 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <a href="index.php" class="nav-link">
+      <a href="../../index.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
@@ -412,7 +412,7 @@
         </svg>
         Paramètres
       </a>
-      <a href="logout.php" class="nav-link danger">
+      <a href="../../Authentification/connect_admin.php" class="nav-link danger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>

@@ -534,7 +534,7 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <a href="index.php" class="nav-link">
+      <a href="../../index.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
@@ -548,7 +548,7 @@
         </svg>
         Paramètres
       </a>
-      <a href="logout.php" class="nav-link danger">
+      <a href="../../Authentification/connect_admin.php" class="nav-link danger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -595,11 +595,44 @@
         </svg>
       </a>
       <div>
-        <h2>Ajouter un produit</h2>
+        <h2>Ajouter un produit <?php require '../../liaison.php';
+        if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
+    if (!empty($_POST['nom']) && !empty($_POST['categorie']) && !empty($_POST['statut']) 
+        && !empty($_POST['stock']) && !empty($_POST['prix']) && !empty($_POST['description'])) {
+    $nomp = $_POST['nom'];
+    $prix = $_POST['prix'];
+    $description = $_POST['description'];
+    $stock = $_POST['stock'];
+    $statut = $_POST['statut'];
+    $categorie = $_POST['categorie'];
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $target_dir = "../../image/";
+        $image = basename($_FILES["image"]["name"]);
+        $target_file = $target_dir . $image;
+
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $stmt = $com->prepare("INSERT INTO produit (nomprod, prix, description, image, stock, statut, id_cat)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$nomp, $prix, $description, $image, $stock, $statut, $categorie])) {
+                echo "     ---notification:Produit ajouté avec succès !";
+            } else {
+                echo "    ---Erreur lors de l'insertion.";
+            }
+        } else {
+            echo "---erreur :Erreur lors de l'upload de l'image.";
+        }
+    } else {
+        echo "---erreur :Vous devez obligatoirement choisir une image pour ce produit.";
+    }
+}else {
+        echo "---erreur :Vous devez obligatoirement saisir les infos pour ce produit.";
+    }}
+?>
+</h2>
         <p>Créez un nouveau produit dans votre catalogue</p>
       </div>
     </div>
-
+    <form method="POST" action="ajoutprod.php" enctype="multipart/form-data">
     <div class="content-grid">
 
       <!-- ── LEFT : Formulaire ── -->
@@ -611,18 +644,28 @@
 
           <div class="field">
             <label>Nom du produit <span class="req">*</span></label>
-            <input type="text" placeholder="Ex: T-Shirt Premium" />
+            <input name="nom" type="text" placeholder="Ex: T-Shirt Premium" />
           </div>
 
           <div class="row-2">
             <div class="field">
               <label>Catégorie <span class="req">*</span></label>
               <div class="select-wrap">
-                <select>
-                  <option>Vêtements</option>
-                  <option>Accessoires</option>
-                  <option>Chaussures</option>
-                </select>
+                <select name="categorie">
+                <?php
+                require '../../liaison.php'; 
+                try {
+                    $stmt = $com->query("SELECT id_cat, nom FROM categorie");
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        // Chaque option a comme valeur l'id_cat et affiche le nom
+                        echo '<option value="'.$row['id_cat'].'">'.$row['nom'].'</option>';
+                    }
+                } catch (PDOException $e) {
+                    echo "<option>Erreur : " . $e->getMessage() . "</option>";
+                }
+                ?>
+              </select>
+
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"/>
                 </svg>
@@ -631,10 +674,9 @@
             <div class="field">
               <label>Statut</label>
               <div class="select-wrap">
-                <select>
-                  <option>En stock</option>
-                  <option>Rupture de stock</option>
-                  <option>Désactivé</option>
+                <select name="statut">
+                  <option>actif</option>
+                  <option>archive</option>
                 </select>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"/>
@@ -645,33 +687,26 @@
 
           <div class="row-2">
             <div class="field">
-              <label>Prix (€) <span class="req">*</span></label>
-              <input type="number" placeholder="49.99" step="0.01" min="0" />
+              <label>Prix (FCFA) <span class="req">*</span></label>
+              <input name="prix" type="number" placeholder="5000" step="500" min="500" />
             </div>
             <div class="field">
               <label>Stock <span class="req">*</span></label>
-              <input type="number" placeholder="100" min="0" />
+              <input name="stock" type="number" placeholder="100" min="0" />
             </div>
           </div>
 
           <div class="field">
             <label>Description <span class="req">*</span></label>
-            <textarea placeholder="Décrivez votre produit en détail..."></textarea>
+            <textarea name="description" placeholder="Décrivez votre produit en détail..."></textarea>
           </div>
         </div>
 
         <!-- Images -->
         <div class="card">
-          <h3>Images du produit</h3>
-          <div class="upload-zone" onclick="document.getElementById('file-input').click()">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 16 12 12 8 16"/>
-              <line x1="12" y1="12" x2="12" y2="21"/>
-              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-            </svg>
-            Ajouter
-            <input type="file" id="file-input" accept="image/*" style="display:none" multiple />
-          </div>
+              <label for="image">Image du produit <span class="req">*</span></label>
+              <input class="upload-zone" type="file" name="image" id="file-input" accept="image/*" />
+        
           <p class="upload-hint">Recommandé : Images carrées de 1000x1000px minimum</p>
         </div>
 
@@ -709,6 +744,8 @@
       </div>
 
       <!-- ── RIGHT : Aperçu ── -->
+
+
       <div class="preview-card">
         <h3>Aperçu</h3>
 
@@ -723,7 +760,7 @@
         <div class="preview-rows">
           <div class="preview-row">
             <p>Catégorie</p>
-            <p id="prev-cat">Vêtements</p>
+            <p id="prev-cat">-</p>
           </div>
           <div class="preview-row">
             <p>Nom</p>
@@ -748,12 +785,12 @@
         </div>
 
         <hr class="divider" />
-
-        <a href="creer-produit.php" class="btn-create">Créer le produit</a>
-        <a href="produits.php" class="btn-cancel">Annuler</a>
+        <button class="btn-create">Créer le produit</button>
+        <a href="" class="btn-cancel">Annuler</a>
       </div>
 
     </div>
+    </form>
   </main>
 
   <script>
@@ -772,9 +809,9 @@
       pName.className = name ? '' : 'dash';
 
       // Prix
-      const price = document.querySelector('input[placeholder="49.99"]').value;
+      const price = document.querySelector('input[placeholder="5000"]').value;
       const pPrice = document.getElementById('prev-price');
-      pPrice.textContent = price ? price + '€' : '—';
+      pPrice.textContent = price ? price + 'FCFA' : '—';
       pPrice.className = price ? '' : 'dash';
 
       // Stock

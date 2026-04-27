@@ -58,7 +58,7 @@
     </div>
 
     <!-- ✅ button → <a> -->
-    <a href="dashboard.php" class="btn-connect">Se connecter</a>
+    <a href="../produits/produits_admin/dashboard.php" class="btn-connect">Se connecter</a>
 
     <div class="test-box">
       <strong>Informations de test :</strong><br/>
