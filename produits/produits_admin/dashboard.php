@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+// Protection : si pas connecté en admin, rediriger
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('Location: ../Authentification/connect_admin.php');
+    exit;
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -441,8 +455,8 @@
       <div class="user-info">
         <div class="avatar">A</div>
         <div class="user-text">
-          <p>Admin User</p>
-          <p>admin@shopstyle.com</p>
+         <p><?= htmlspecialchars($_SESSION['nom']) ?></p>
+        <p><?= htmlspecialchars($_SESSION['email']) ?></p>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ session_start();
 
 // Si déjà connecté en admin → rediriger
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-    header('Location: ../Admin/dashboard.php');
+   header('Location: ../produits_admin/dashboard.php');
     exit;
 }
 
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Veuillez remplir tous les champs.';
     } else {
         // Connexion BDD
-        require_once '../config/db.php';
+       require_once '../liaison.php';
 
         $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email = ? AND role = 'admin' LIMIT 1");
         $stmt->execute([$email]);
@@ -35,8 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['rmb'])) {
                 setcookie('admin_email', $email, time() + (86400 * 30), '/');
             }
-
-            header('Location: ../Admin/dashboard.php');
+             header('Location: ../produits_admin/dashboard.php');
             exit;
         } else {
             $error = 'Email ou mot de passe incorrect.';
