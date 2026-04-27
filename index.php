@@ -67,7 +67,7 @@
   </style>
 </head>
 <body>
-  <?php include 'include/header.php'; ?>
+  <?php include 'include/header.php';?>
 
   <!-- HERO -->
   <section class="hero">
@@ -92,105 +92,48 @@
 
     <div class="grid">
 
-      <!-- Card 1 -->
-      <div class="card">
-        <div class="card-img"></div>
+      <!-- Card -->
+       <?php
+       require 'liaison.php'; 
+      try{
+         $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ");
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              ?>
+            <form method="post" action="panier/selectSQL.php">
+           <div class="card">
+        <div class="card-img">
+          <img src="image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
+        </div>
         <div class="card-body">
-          <p class="card-cat">Accessoires</p>
-          <p class="card-name">Casquette Vintage</p>
-          <p class="card-price">39.99€</p>
+          <input type="hidden" name="qte" value="1" min="1">
+          <input type="hidden" name="idprod" value="<?php echo $row['idprod']; ?>">
+          <p class="card-cat" ><?php echo $row['nom']?></p>
+          <p class="card-name" ><?php echo $row['nomprod']?></p>
+          <p class="card-price" ><?php echo $row['prix']?>FCFA</p>
           <div class="card-actions">
-            <a href="" class="btn-cart">
+            <button class="btn-cart" name="ajouter" formaction="panier/affiche_panier.php">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
               </svg>
               Ajouter
-            </a>
-            <a href="panier/detai.php" class="btn-details">
+            </button>
+            <button class="btn-details" formaction="panier/detai.php">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
               </svg>
               Détails
-            </a>
+            </button>
           </div>
         </div>
       </div>
-
-      <!-- Card 2 -->
-      <div class="card">
-        <div class="card-img"></div>
-        <div class="card-body">
-          <p class="card-cat">Vêtements</p>
-          <p class="card-name">T-Shirt Premium</p>
-          <p class="card-price">49.99€</p>
-          <div class="card-actions">
-            <a href="panier.php?action=add&id=2" class="btn-cart">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-              Ajouter
-            </a>
-            <a href="produit.php?id=2" class="btn-details">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-              </svg>
-              Détails
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card">
-        <div class="card-img"></div>
-        <div class="card-body">
-          <p class="card-cat">Vêtements</p>
-          <p class="card-name">Jean Slim Fit</p>
-          <p class="card-price">79.99€</p>
-          <div class="card-actions">
-            <a href="panier.php?action=add&id=3" class="btn-cart">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-              Ajouter
-            </a>
-            <a href="produit.php?id=3" class="btn-details">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-              </svg>
-              Détails
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="card">
-        <div class="card-img"></div>
-        <div class="card-body">
-          <p class="card-cat">Vêtements</p>
-          <p class="card-name">Veste en Cuir</p>
-          <p class="card-price">349.99€</p>
-          <div class="card-actions">
-            <a href="panier.php?action=add&id=4" class="btn-cart">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-              Ajouter
-            </a>
-            <a href="produit.php?id=4" class="btn-details">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-              </svg>
-              Détails
-            </a>
-          </div>
-        </div>
-      </div>
+          </form>
+          <?php
+                }
+            } catch (PDOException $e) {
+                echo "Erreur : " . $e->getMessage();
+            }
+            ?>
 
     </div>
   </section>

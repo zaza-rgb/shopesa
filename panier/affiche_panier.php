@@ -1,3 +1,7 @@
+<?php
+      session_start();
+      require 'selectSQL.php';
+      ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -311,10 +315,9 @@
   </style>
 </head>
 <body>
-
   <!-- TOP BAR -->
   <header class="topbar">
-    <a href="index.php" class="back-link">
+    <a href="http://localhost/shopesa/index.php" class="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M15 18l-6-6 6-6"/>
       </svg>
@@ -332,85 +335,78 @@
 
       <!-- LEFT: Items -->
       <div class="items">
-
-        <!-- Item 1 -->
-        <div class="item-card">
-          <a href="produit.php?id=1" class="item-img">sneakers</a>
+      <?php
+      $tota=0;
+    if (isset($_POST['qte'])){
+        $quantite = (int)$_POST['qte'];
+    }else{
+    $quantite = (int)$_GET['qte'];
+        }
+    if (isset($_POST['idprod'])){
+        $id = $_POST['idprod'];
+    }else{
+    $id = $_GET['id'];
+        }
+      if (isset($_POST['ajouter'])) {
+              if (!isset($_SESSION['panier'])) {
+                  $_SESSION['panier'] = [];
+                  $quantite=1;
+                  }if (!isset($_SESSION['panier'][$id])) {
+            $_SESSION['panier'][$id] = $quantite;
+        }}else if (isset($_GET['qte'])) { 
+                $_SESSION['panier'][$id]= $quantite;
+                }else if (isset($_GET['id'])) {
+                          unset($_SESSION['panier'][$id]);
+                          }
+      if (!empty($_SESSION['panier'])) {
+              foreach ($_SESSION['panier'] as $idprod => $qte) {
+                  $sql = "SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE idprod = ?";
+                  $stmt = $com->prepare($sql);
+                  $stmt->execute([$idprod]);
+                  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                  ?>
+                 <div class="item-card">
+          <a href="detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="item-img">
+            <img src="../image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
+          </a>
           <div class="item-info">
-            <h3>Sneakers Premium</h3>
-            <p class="item-cat">Chaussures</p>
-            <p class="item-meta">Taille: <strong>42</strong> &nbsp;•&nbsp; Couleur: <strong>Noir</strong></p>
+            <h3><?php echo htmlspecialchars($row['nomprod']); ?></h3>
+            <p class="item-cat"><?php echo htmlspecialchars($row['nom']); ?></p>
+            <p class="item-meta"> Couleur: <strong><?php echo htmlspecialchars($row['couleur']); ?></strong></p>
             <div class="item-bottom">
               <div class="qty">
                 <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
-                <span class="qty-val">1</span>
+                <span class="qty-val"><?php echo $qte ?></span>
+                <input type="hidden" name="qte" value="<?php echo $qte ?>" class="qte-input">
                 <button class="qty-btn" onclick="changeQty(this,1)">+</button>
               </div>
               <div>
-                <p class="item-price">129.99€</p>
+                <p class="item-price"><?php echo htmlspecialchars($row['prix']); ?>FCFA</p>
               </div>
             </div>
           </div>
-          <a href="supprimer.php?id=1" class="delete-link" title="Supprimer">
+          <a href="affiche_panier.php?id=<?php echo htmlspecialchars($row['idprod']); ?>&qte=<?php echo $qte ; ?>" 
+          class="update-link" title="Mettre à jour">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/>
+            <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>
+          </svg>
+        </a>
+
+          <a href="affiche_panier.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="delete-link" title="Supprimer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
               <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
             </svg>
           </a>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="item-card">
-          <a href="produit.php?id=2" class="item-img">watch</a>
-          <div class="item-info">
-            <h3>Montre Élégante</h3>
-            <p class="item-cat">Accessoires</p>
-            <p class="item-meta">Taille: <strong>Unique</strong> &nbsp;•&nbsp; Couleur: <strong>Argent</strong></p>
-            <div class="item-bottom">
-              <div class="qty">
-                <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
-                <span class="qty-val">1</span>
-                <button class="qty-btn" onclick="changeQty(this,1)">+</button>
-              </div>
-              <div>
-                <p class="item-price">299.99€</p>
-              </div>
-            </div>
-          </div>
-          <a href="supprimer.php?id=2" class="delete-link" title="Supprimer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-            </svg>
-          </a>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="item-card">
-          <a href="produit.php?id=3" class="item-img">tshirt</a>
-          <div class="item-info">
-            <h3>T-Shirt Premium</h3>
-            <p class="item-cat">Vêtements</p>
-            <p class="item-meta">Taille: <strong>L</strong> &nbsp;•&nbsp; Couleur: <strong>Blanc</strong></p>
-            <div class="item-bottom">
-              <div class="qty">
-                <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
-                <span class="qty-val">2</span>
-                <button class="qty-btn" onclick="changeQty(this,1)">+</button>
-              </div>
-              <div>
-                <p class="item-price">99.98€</p>
-                <p class="item-unit">49.99€ / unité</p>
-              </div>
-            </div>
-          </div>
-          <a href="supprimer.php?id=3" class="delete-link" title="Supprimer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-            </svg>
-          </a>
-        </div>
+        </div> 
+        <?php
+        } }else {
+              echo "Panier vide.";
+          }
+      ?>
 
         <!-- Moyens de paiement -->
         <div class="payments">
@@ -483,13 +479,15 @@
   </main>
 
   <script>
-    function changeQty(btn, delta) {
-      const wrap = btn.closest('.qty');
-      const val  = wrap.querySelector('.qty-val');
-      let n = parseInt(val.textContent) + delta;
-      if (n < 1) n = 1;
-      val.textContent = n;
-    }
+   function changeQty(btn, delta) {
+  const wrap = btn.closest('.qty');
+  const val  = wrap.querySelector('.qty-val');
+  const input = wrap.querySelector('.qte-input');
+  let n = parseInt(val.textContent) + delta;
+  if (n < 1) n = 1;
+  val.textContent = n;
+  input.value = n;
+}
   </script>
 </body>
 </html>

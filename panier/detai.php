@@ -481,14 +481,14 @@
 
   <!-- TOPBAR -->
   <header class="topbar">
-    <a href="index.php" class="back-link">
+    <a href="http://localhost/shopesa/index.php" class="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M15 18l-6-6 6-6"/>
       </svg>
       Retour
     </a>
-    <a href="index.php" class="topbar-logo">ShopEsa</a>
-    <a href="panier.php" class="topbar-cart">
+    <a href="http://localhost/shopesa/index.php" class="topbar-logo">ShopEsa</a>
+    <a href="affiche_panier.php" class="topbar-cart">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -496,17 +496,20 @@
       <span class="badge">3</span>
     </a>
   </header>
-
+  <?php require'selectSQL.php';
+      require '../liaison.php';?>
   <!-- PAGE -->
+   <form method="post">
   <main class="page">
 
     <!-- PRODUCT -->
     <div class="product-layout">
-
       <!-- LEFT : Images -->
       <div class="product-images">
         <div class="main-img">
-          watch
+          <input type="hidden" name="qte" value="1" min="1">
+          <input type="hidden" name="idprod" value="<?php echo $id; ?>">
+          <img src="../image/<?php echo $image ?>" alt="" height= "100%">
           <a href="wishlist.php?id=2" class="wishlist-btn" title="Ajouter aux favoris">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -514,18 +517,18 @@
           </a>
         </div>
         <div class="thumb-row">
-          <a href="#" class="thumb active">watch</a>
-          <a href="#" class="thumb">watch</a>
-          <a href="#" class="thumb">watch</a>
-          <a href="#" class="thumb">watch</a>
+          <a href="" class="thumb active">watch</a>
+          <a href="" class="thumb">watch</a>
+          <a href="" class="thumb">watch</a>
+          <a href="" class="thumb">watch</a>
         </div>
       </div>
 
       <!-- RIGHT : Info -->
       <div class="product-info">
 
-        <p class="product-cat">Accessoires</p>
-        <h1 class="product-name">Montre Élégante</h1>
+        <p class="product-cat"><?php echo $nom_cat ?></p>
+        <h1 class="product-name"><?php echo $nomprod ?></h1>
 
         <!-- Stars -->
         <div class="stars-row">
@@ -539,23 +542,22 @@
           <span class="reviews">(128 avis)</span>
         </div>
 
-        <p class="product-price">299.99€</p>
+        <p class="product-price"><?php echo $price ?>FCFA</p>
 
         <p class="product-desc">
-          Une montre élégante qui allie style et fonctionnalité. Mouvement à quartz précis,
-          bracelet en cuir véritable et cadran sophistiqué.
+          <?php echo $descri ?>
         </p>
 
         <!-- Taille -->
         <div>
           <p class="opt-label">Taille</p>
           <div class="size-row">
-            <button class="size-btn" onclick="selectOpt(this, 'size')">XS</button>
-            <button class="size-btn" onclick="selectOpt(this, 'size')">S</button>
-            <button class="size-btn active" onclick="selectOpt(this, 'size')">M</button>
-            <button class="size-btn" onclick="selectOpt(this, 'size')">L</button>
-            <button class="size-btn" onclick="selectOpt(this, 'size')">XL</button>
-            <button class="size-btn" onclick="selectOpt(this, 'size')">XXL</button>
+            <button type="button" class="size-btn" onclick="selectOpt(this, 'size')">XS</button>
+            <button type="button" class="size-btn" onclick="selectOpt(this, 'size')">S</button>
+            <button type="button" class="size-btn active" onclick="selectOpt(this, 'size')">M</button>
+            <button type="button" class="size-btn" onclick="selectOpt(this, 'size')">L</button>
+            <button type="button" class="size-btn" onclick="selectOpt(this, 'size')">XL</button>
+            <button type="button" class="size-btn" onclick="selectOpt(this, 'size')">XXL</button>
           </div>
         </div>
 
@@ -563,11 +565,11 @@
         <div>
           <p class="opt-label">Couleur</p>
           <div class="color-row">
-            <button class="color-btn active" onclick="selectOpt(this, 'color')">Noir</button>
-            <button class="color-btn" onclick="selectOpt(this, 'color')">Blanc</button>
-            <button class="color-btn" onclick="selectOpt(this, 'color')">Gris</button>
-            <button class="color-btn" onclick="selectOpt(this, 'color')">Bleu</button>
-            <button class="color-btn" onclick="selectOpt(this, 'color')">Rouge</button>
+            <button type="button" class="color-btn active" onclick="selectOpt(this, 'color')">Noir</button>
+            <button type="button" class="color-btn" onclick="selectOpt(this, 'color')">Blanc</button>
+            <button type="button" class="color-btn" onclick="selectOpt(this, 'color')">Gris</button>
+            <button type="button" class="color-btn" onclick="selectOpt(this, 'color')">Bleu</button>
+            <button type="button" class="color-btn" onclick="selectOpt(this, 'color')">Rouge</button>
           </div>
         </div>
 
@@ -576,9 +578,9 @@
           <p class="opt-label">Quantité</p>
           <div class="qty-wrap">
             <div class="qty">
-              <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+              <button type="button" class="qty-btn" onclick="changeQty(this,-1)">−</button>
               <span class="qty-val">1</span>
-              <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+              <button type="button" class="qty-btn" onclick="changeQty(this,1)">+</button>
             </div>
             <span class="stock-badge">En stock</span>
           </div>
@@ -586,18 +588,18 @@
 
         <!-- Ajouter au panier + Wishlist -->
         <div class="cart-row">
-          <a href="panier.php?action=add&id=2" class="btn-add-cart">
+          <button class="btn-add-cart" name="ajouter" formaction="affiche_panier.php">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
             </svg>
             Ajouter au panier
-          </a>
-          <a href="wishlist.php?id=2" class="btn-wishlist" title="Favoris">
+          </button>
+          <button class="btn-wishlist" name="ajouter" formaction="../produits/produits utilisateur/favoris.php">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
             </svg>
-          </a>
+          </button>
         </div>
 
         <!-- Garanties -->
@@ -636,29 +638,33 @@
     <div class="similar">
       <h2>Produits similaires</h2>
       <div class="similar-grid">
-
-        <a href="produit.php?id=5" class="sim-card">
-          <div class="sim-img">sunglasses</div>
+        <?php
+        try{
+         $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE nom = ? LIMIT 3");
+         $stmt->execute([$nom_cat]); 
+         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              ?>
+              <a href="detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="sim-card">
+          <div class="sim-img">
+            <img src="../image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
+          </div>
           <div class="sim-body">
-            <p class="sim-cat">Accessoires</p>
-            <p class="sim-name">Lunettes de Soleil</p>
-            <p class="sim-price">159.99€</p>
+            <p class="sim-cat"><?php echo htmlspecialchars($row['nom']); ?></p>
+            <p class="sim-name"><?php echo htmlspecialchars($row['nomprod']); ?></p>
+            <p class="sim-price"><?php echo htmlspecialchars($row['prix']); ?>FCFA</p>
           </div>
         </a>
-
-        <a href="produit.php?id=1" class="sim-card">
-          <div class="sim-img">cap</div>
-          <div class="sim-body">
-            <p class="sim-cat">Accessoires</p>
-            <p class="sim-name">Casquette Vintage</p>
-            <p class="sim-price">39.99€</p>
-          </div>
-        </a>
-
+              <?php
+                }
+            } catch (PDOException $e) {
+                echo "Erreur : " . $e->getMessage();
+            }
+            ?>
       </div>
     </div>
 
   </main>
+  </form>
 
   <script>
     // Quantité
