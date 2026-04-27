@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 26 avr. 2026 à 00:57
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.0.30
+-- Généré le : lun. 27 avr. 2026 à 14:07
+-- Version du serveur : 10.4.22-MariaDB
+-- Version de PHP : 7.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `categorie`
+--
+
+CREATE TABLE `categorie` (
+  `id_cat` smallint(3) NOT NULL,
+  `nom` varchar(35) NOT NULL,
+  `descri` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `categorie`
+--
+
+INSERT INTO `categorie` (`id_cat`, `nom`, `descri`) VALUES
+(1, 'electronique', ''),
+(2, 'musique', '');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `commande`
 --
 
@@ -33,7 +53,7 @@ CREATE TABLE `commande` (
   `date_commande` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `total` int(11) NOT NULL,
   `statut` enum('en_attente','validee','livree','annulee') DEFAULT 'en_attente'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `commande`
@@ -56,7 +76,7 @@ CREATE TABLE `commande_produit` (
   `idprod` int(11) NOT NULL,
   `quantite` int(11) NOT NULL,
   `prix_unitaire` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `commande_produit`
@@ -78,7 +98,7 @@ CREATE TABLE `detail_commande` (
   `idprod` int(11) DEFAULT NULL,
   `quantite` int(11) DEFAULT NULL,
   `prix` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `detail_commande`
@@ -99,7 +119,15 @@ CREATE TABLE `favoris` (
   `ref_uti` int(11) NOT NULL,
   `idprod` int(11) NOT NULL,
   `date_ajout` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `favoris`
+--
+
+INSERT INTO `favoris` (`idfav`, `ref_uti`, `idprod`, `date_ajout`) VALUES
+(3, 4, 4, '2026-04-27 11:32:26'),
+(4, 4, 4, '2026-04-27 11:49:36');
 
 -- --------------------------------------------------------
 
@@ -114,7 +142,7 @@ CREATE TABLE `notification` (
   `type` varchar(50) DEFAULT 'info',
   `lu` tinyint(1) DEFAULT 0,
   `date_envoi` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -126,9 +154,16 @@ CREATE TABLE `panier` (
   `idpanier` int(11) NOT NULL,
   `ref_uti` int(11) NOT NULL,
   `idprod` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL DEFAULT 1,
+  `quantite` int(11) NOT NULL,
   `date_ajout` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `panier`
+--
+
+INSERT INTO `panier` (`idpanier`, `ref_uti`, `idprod`, `quantite`, `date_ajout`) VALUES
+(56, 4, 4, 1, '2026-04-27 12:03:46');
 
 -- --------------------------------------------------------
 
@@ -146,20 +181,21 @@ CREATE TABLE `produit` (
   `stock` smallint(55) NOT NULL,
   `couleur` varchar(55) NOT NULL,
   `statut` enum('actif','archive') DEFAULT 'actif',
-  `date_creation` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `date_creation` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_cat` smallint(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `produit`
 --
 
-INSERT INTO `produit` (`idprod`, `nomprod`, `prix`, `image`, `typrod`, `description`, `stock`, `couleur`, `statut`, `date_creation`) VALUES
-(2, 'piano', 455778, 'photo_2025-05-26_12-00-16.jpg', 'YAMAHA', '', 0, '', 'archive', '2026-04-17 06:22:27'),
-(3, 'AirPod', 15000, 'airpods.jpeg', 'AirPod 2 pro de Apple', '', 0, '', 'archive', '2026-04-17 06:22:27'),
-(4, 'casque', 15000, 'casque.jpeg', 'CASQUE AUDIO', '', 0, '', 'archive', '2026-04-17 06:22:27'),
-(5, 'souri', 5000, 'souris.jpeg', 'souri levono', '', 0, '', 'archive', '2026-04-17 06:22:27'),
-(6, 'airpods TWS', 120000, 'airpods.jpeg', '', '', 7, '', 'actif', '2026-04-17 16:39:05'),
-(7, 'casque', 3500, 'casque.jpeg', '', '', 0, '', 'archive', '2026-04-17 16:39:05');
+INSERT INTO `produit` (`idprod`, `nomprod`, `prix`, `image`, `typrod`, `description`, `stock`, `couleur`, `statut`, `date_creation`, `id_cat`) VALUES
+(2, 'piano', 455778, 'photo_2025-05-26_12-00-16.jpg', 'YAMAHA', 'piano yamaha', 30, 'noir', 'actif', '2026-04-17 06:22:27', 2),
+(3, 'AirPod', 15000, 'airpods.jpeg', 'AirPod 2 pro de Apple', '', 0, 'blanc', 'archive', '2026-04-17 06:22:27', 1),
+(4, 'casque', 15000, 'casque.jpeg', 'CASQUE AUDIO', '', 0, 'blanc', 'archive', '2026-04-17 06:22:27', 1),
+(5, 'souri', 5000, 'souris.jpeg', 'souri levono', '', 0, 'gris', 'archive', '2026-04-17 06:22:27', 1),
+(6, 'airpods TWS', 120000, 'airpods.jpeg', '', '', 7, 'noir', 'actif', '2026-04-17 16:39:05', 1),
+(7, 'casque', 3500, 'casque.jpeg', '', '', 0, 'cafe', 'archive', '2026-04-17 16:39:05', 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +210,7 @@ CREATE TABLE `utilisateur` (
   `password` varchar(255) NOT NULL,
   `role` enum('admin','client') DEFAULT 'client',
   `date_creation` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -186,6 +222,12 @@ INSERT INTO `utilisateur` (`ref_uti`, `nom`, `email`, `password`, `role`, `date_
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `categorie`
+--
+ALTER TABLE `categorie`
+  ADD PRIMARY KEY (`id_cat`);
 
 --
 -- Index pour la table `commande`
@@ -234,7 +276,8 @@ ALTER TABLE `panier`
 -- Index pour la table `produit`
 --
 ALTER TABLE `produit`
-  ADD PRIMARY KEY (`idprod`);
+  ADD PRIMARY KEY (`idprod`),
+  ADD KEY `fk` (`id_cat`);
 
 --
 -- Index pour la table `utilisateur`
@@ -247,6 +290,12 @@ ALTER TABLE `utilisateur`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `categorie`
+--
+ALTER TABLE `categorie`
+  MODIFY `id_cat` smallint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `commande`
@@ -270,7 +319,7 @@ ALTER TABLE `detail_commande`
 -- AUTO_INCREMENT pour la table `favoris`
 --
 ALTER TABLE `favoris`
-  MODIFY `idfav` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idfav` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
@@ -282,7 +331,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `idpanier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idpanier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
@@ -326,6 +375,12 @@ ALTER TABLE `notification`
 ALTER TABLE `panier`
   ADD CONSTRAINT `panier_ibfk_1` FOREIGN KEY (`ref_uti`) REFERENCES `utilisateur` (`ref_uti`) ON DELETE CASCADE,
   ADD CONSTRAINT `panier_ibfk_2` FOREIGN KEY (`idprod`) REFERENCES `produit` (`idprod`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `produit`
+--
+ALTER TABLE `produit`
+  ADD CONSTRAINT `fk` FOREIGN KEY (`id_cat`) REFERENCES `categorie` (`id_cat`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

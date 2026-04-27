@@ -7,11 +7,15 @@
           $idpanier=$_POST['idpanier'];
             $stmt = $com->prepare("DELETE FROM panier WHERE idpanier=?");
             $stmt->execute([$idpanier]);
+            header("Location: affiche_panier.php");
+            exit;
             }else if (isset($_POST['refresh'])) {
                   $idpanier=$_POST['idpanier'];
                   $qte=$_POST['qte'];
                     $stmt = $com->prepare("UPDATE panier SET quantite = ? WHERE idpanier = ?");
                     $stmt->execute([$qte, $idpanier]);
+                    header("Location: affiche_panier.php");
+                    exit;
                     }else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idprod'])) {
                         $id_prod=$_POST['idprod'];
                         $ref_uti=4;
@@ -386,7 +390,19 @@
   <!-- PAGE -->
   <main class="page">
     <h1 class="cart-title">Mon Panier</h1>
-    <p class="cart-count">3 articles dans votre panier</p>
+    <p class="cart-count"><?php
+        require '../liaison.php';
+        $ref_uti=4;
+        try {
+    $stmt = $com->prepare("SELECT COUNT(idpanier) AS nb FROM panier WHERE ref_uti = ?");
+    $stmt->execute([$ref_uti]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+          echo $row['nb'];
+
+      } catch (PDOException $e) {
+          echo "Erreur : " . $e->getMessage();
+      }
+      ?> articles dans votre panier</p>
 
     <div class="layout">
 

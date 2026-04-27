@@ -378,7 +378,18 @@
   <!-- PAGE -->
   <main class="page">
     <h1 class="cart-title">Mes favoris</h1>
-    <p class="cart-count">3 articles dans votre panier</p>
+    <p class="cart-count"><?php
+        $ref_uti=4;
+        try {
+    $stmt = $com->prepare("SELECT COUNT(idfav) AS nb FROM favoris WHERE ref_uti = ?");
+    $stmt->execute([$ref_uti]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+          echo $row['nb'];
+
+      } catch (PDOException $e) {
+          echo "Erreur : " . $e->getMessage();
+      }
+      ?> articles dans vos favoris</p>
 
     <div class="layout">
 
@@ -392,7 +403,7 @@
               ?>
               <form method="POST" action="favoris.php">
                  <div class="item-card">
-          <a href="detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="item-img">
+          <a href="../../panier/detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="item-img">
             <img src="../../image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
           </a>
           <div class="item-info">
