@@ -231,3 +231,13 @@
 
     .secure-text h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
     .secure-text p  { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+
+
+    .btn-connecst {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+
+  /* le reste de ton style existant reste inchangé */
+}
