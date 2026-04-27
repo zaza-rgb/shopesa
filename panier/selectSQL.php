@@ -1,11 +1,8 @@
 <?php
 require '../liaison.php';
 
-if (isset($_POST['idprod'])){
-    $id = $_POST['idprod'];
-}else{
-    $id = $_GET['id'];
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idprod'])){
+        $id=$_POST['idprod'];
         $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE idprod = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -19,5 +16,5 @@ if (isset($_POST['idprod'])){
         } else {
             echo "Produit introuvable.";
         }
-    
+}
     ?>

@@ -497,7 +497,8 @@
     </a>
   </header>
   <?php require'selectSQL.php';
-      require '../liaison.php';?>
+      require '../liaison.php';
+      $qte=1;?>
   <!-- PAGE -->
    <form method="post">
   <main class="page">
@@ -507,7 +508,6 @@
       <!-- LEFT : Images -->
       <div class="product-images">
         <div class="main-img">
-          <input type="hidden" name="qte" value="1" min="1">
           <input type="hidden" name="idprod" value="<?php echo $id; ?>">
           <img src="../image/<?php echo $image ?>" alt="" height= "100%">
           <a href="wishlist.php?id=2" class="wishlist-btn" title="Ajouter aux favoris">
@@ -579,7 +579,8 @@
           <div class="qty-wrap">
             <div class="qty">
               <button type="button" class="qty-btn" onclick="changeQty(this,-1)">−</button>
-              <span class="qty-val">1</span>
+              <span class="qty-val"><?php echo $qte?></span>
+              <input type="hidden" name="qte" value="<?php echo $qte?>">
               <button type="button" class="qty-btn" onclick="changeQty(this,1)">+</button>
             </div>
             <span class="stock-badge">En stock</span>

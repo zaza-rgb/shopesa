@@ -1,7 +1,29 @@
 <?php
-      session_start();
-      require 'selectSQL.php';
-      ?>
+       require '../liaison.php';
+       $total=0;
+      $qte=1;
+       $id=4; 
+       if (isset($_POST['delete'])) {
+          $idpanier=$_POST['idpanier'];
+            $stmt = $com->prepare("DELETE FROM panier WHERE idpanier=?");
+            $stmt->execute([$idpanier]);
+            }else if (isset($_POST['refresh'])) {
+                  $idpanier=$_POST['idpanier'];
+                  $qte=$_POST['qte'];
+                    $stmt = $com->prepare("UPDATE panier SET quantite = ? WHERE idpanier = ?");
+                    $stmt->execute([$qte, $idpanier]);
+                    }else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idprod'])) {
+                        $id_prod=$_POST['idprod'];
+                        $ref_uti=4;
+                        $quantite=$_POST['qte'];
+                          $sql = "INSERT INTO panier (ref_uti, idprod, quantite) VALUES(?,?,?)";
+                          $stmt = $com->prepare($sql);
+                          $stmt->execute([$ref_uti,$id_prod,$quantite]);
+                          header("Location: affiche_panier.php");
+                          exit;
+                          }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -167,6 +189,41 @@
     .item-unit  { font-size: 0.75rem; color: var(--muted); text-align: right; margin-top: 2px; }
 
     /* ── SUPPRIMER → lien ── */
+    /* Style commun aux deux boutons */
+.updatelink, .delete-link {
+  background: none;          /* pas de fond par défaut */
+  border: none;              /* pas de bordure */
+  cursor: pointer;           /* curseur main */
+  padding: 6px;              /* espace autour de l’icône */
+  border-radius: 4px;        /* coins arrondis */
+  transition: background 0.2s, transform 0.2s;
+}
+
+/* Icônes SVG héritent de la couleur */
+.updatelink svg, .delete-link svg {
+  stroke: #333;              /* couleur par défaut */
+  width: 20px;
+  height: 20px;
+}
+
+/* Bouton Mettre à jour */
+.updatelink:hover {
+  background: #e0f7e9;       /* vert pâle au survol */
+  transform: scale(1.1);     /* petit zoom */
+}
+.updatelink svg {
+  stroke: #28a745;           /* vert */
+}
+
+/* Bouton Supprimer */
+.delete-link:hover {
+  background: #fde0e0;       /* rouge pâle au survol */
+  transform: scale(1.1);
+}
+.delete-link svg {
+  stroke: #dc3545;           /* rouge */
+}
+
     .delete-link {
       color: var(--muted);
       display: flex;
@@ -336,35 +393,12 @@
       <!-- LEFT: Items -->
       <div class="items">
       <?php
-      $tota=0;
-    if (isset($_POST['qte'])){
-        $quantite = (int)$_POST['qte'];
-    }else{
-    $quantite = (int)$_GET['qte'];
-        }
-    if (isset($_POST['idprod'])){
-        $id = $_POST['idprod'];
-    }else{
-    $id = $_GET['id'];
-        }
-      if (isset($_POST['ajouter'])) {
-              if (!isset($_SESSION['panier'])) {
-                  $_SESSION['panier'] = [];
-                  $quantite=1;
-                  }if (!isset($_SESSION['panier'][$id])) {
-            $_SESSION['panier'][$id] = $quantite;
-        }}else if (isset($_GET['qte'])) { 
-                $_SESSION['panier'][$id]= $quantite;
-                }else if (isset($_GET['id'])) {
-                          unset($_SESSION['panier'][$id]);
-                          }
-      if (!empty($_SESSION['panier'])) {
-              foreach ($_SESSION['panier'] as $idprod => $qte) {
-                  $sql = "SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE idprod = ?";
-                  $stmt = $com->prepare($sql);
-                  $stmt->execute([$idprod]);
-                  $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                  ?>
+      try{
+         $stmt = $com->prepare("SELECT * FROM panier JOIN produit ON panier.idprod = produit.idprod JOIN categorie ON categorie.id_cat = produit.id_cat WHERE ref_uti = ? ");
+          $stmt->execute([$id]);  
+         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              ?>
+              <form method="POST" action="affiche_panier.php">
                  <div class="item-card">
           <a href="detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="item-img">
             <img src="../image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
@@ -375,38 +409,47 @@
             <p class="item-meta"> Couleur: <strong><?php echo htmlspecialchars($row['couleur']); ?></strong></p>
             <div class="item-bottom">
               <div class="qty">
-                <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
-                <span class="qty-val"><?php echo $qte ?></span>
-                <input type="hidden" name="qte" value="<?php echo $qte ?>" class="qte-input">
-                <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+                <button type ="button" class="qty-btn" onclick="changeQty(this,-1)">−</button>
+                <span class="qty-val"><?php echo htmlspecialchars($row['quantite']); ?></span>
+                <input type="hidden" class="qte-input" name="qte" value="<?php echo htmlspecialchars($row['quantite']); ?>">
+                <button type="button" class="qty-btn" onclick="changeQty(this,1)">+</button>
               </div>
               <div>
                 <p class="item-price"><?php echo htmlspecialchars($row['prix']); ?>FCFA</p>
+                <?php 
+                  $tot = $row['prix'] * $row['quantite'];
+                  $total += $tot;
+                ?>
               </div>
             </div>
           </div>
-          <a href="affiche_panier.php?id=<?php echo htmlspecialchars($row['idprod']); ?>&qte=<?php echo $qte ; ?>" 
-          class="update-link" title="Mettre à jour">
+          
+            <input type="hidden" name="idpanier" value="<?php echo htmlspecialchars($row['idpanier']); ?>">
+            <input type="hidden" name="idprod" value="<?php echo htmlspecialchars($row['idprod']); ?>">
+
+          <button class="updatelink" name="refresh" title="Mettre à jour" >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="23 4 23 10 17 10"/>
             <polyline points="1 20 1 14 7 14"/>
             <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"/>
             <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"/>
           </svg>
-        </a>
-
-          <a href="affiche_panier.php?id=<?php echo htmlspecialchars($row['idprod']); ?>" class="delete-link" title="Supprimer">
+          </button>
+          <button class="delete-link" name="delete" title="Supprimer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
               <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
             </svg>
-          </a>
-        </div> 
+          </button>
+         
+        </div>
+         </form>
         <?php
-        } }else {
-              echo "Panier vide.";
-          }
-      ?>
+                }
+            } catch (PDOException $e) {
+                echo "Erreur : " . $e->getMessage();
+            }
+            ?> 
 
         <!-- Moyens de paiement -->
         <div class="payments">
@@ -428,7 +471,7 @@
 
         <div class="summary-row">
           <span>Sous-total</span>
-          <span>529.96€</span>
+          <span><?php echo $total;?></span>
         </div>
         <div class="summary-row">
           <span>Livraison</span>
@@ -439,7 +482,7 @@
 
         <div class="summary-total">
           <span>Total</span>
-          <span>529.96€</span>
+          <span><?php echo $total;?></span>
         </div>
 
         <p class="promo-label">Code promo</p>

@@ -213,7 +213,19 @@
           <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
         </svg>
-        <span class="badge">3</span>
+        <span class="badge"><?php
+        require __DIR__ . '/../liaison.php';
+        $ref_uti=4;
+        try {
+    $stmt = $com->prepare("SELECT COUNT(idpanier) AS nb FROM panier WHERE ref_uti = ?");
+    $stmt->execute([$ref_uti]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+          echo $row['nb'];
+
+      } catch (PDOException $e) {
+          echo "Erreur : " . $e->getMessage();
+      }
+      ?></span>
       </a>
 
       <!-- Admin → page connexion admin -->
