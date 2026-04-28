@@ -25,10 +25,10 @@
     <div class="products-header">
       <h2>Produits populaires</h2>
       <div class="filters">
-        <button class="filter-btn active">Tous</button>
-        <button class="filter-btn">Vêtements</button>
-        <button class="filter-btn">Accessoires</button>
-        <button class="filter-btn">Chaussures</button>
+        <a href="" class="filter-btn active">Tous</a>
+        <a href="" class="filter-btn">Vêtements</a>
+        <a href="" class="filter-btn" >Accessoires</a>   
+        <a href=""class="filter-btn">Chaussures></a> 
       </div>
     </div>
 
