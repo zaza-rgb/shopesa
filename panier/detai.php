@@ -1,3 +1,16 @@
+<?php
+session_start();
+       require '../liaison.php';
+       if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+    $ref_uti=5;
+}
+if (isset($_SESSION['ref_uti'])){
+  $ref_uti=$_SESSION['ref_uti'];
+}else{
+  $ref_uti=0;
+}
+        
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -496,7 +509,6 @@
       <span class="badge">
         <?php
         require '../liaison.php';
-        $ref_uti=4;
         try {
     $stmt = $com->prepare("SELECT COUNT(idpanier) AS nb FROM panier WHERE ref_uti = ?");
     $stmt->execute([$ref_uti]);

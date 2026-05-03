@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShopStyle – Accueil</title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+ 
   <link rel="stylesheet" href="css/index.css" />
-  <style>
+   <style>
     /* ── CARD ACTIONS ── */
     .card {
       position: relative;
@@ -67,14 +68,14 @@
   </style>
 </head>
 <body>
-  <?php include 'include/header.php';?>
-
+  <?php include 'include/header.php'; ?>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
       <h1>Besoin d'article de toute urgence !</h1>
+      
       <p>Bingo !, vous êtes au bon endroit, Découvrez les dernières tendances mode</p>
-      <a href="#" class="btn-hero">Découvrir maintenant</a>
+      <a href="produits/produits utilisateur/affprod.php" class="btn-hero">Découvrir maintenant</a>
     </div>
   </section>
 
@@ -84,7 +85,7 @@
       <h2>Produits populaires</h2>
       <div class="filters">
         <form method="post" action="index.php">
-        <button type="submit" class="filter-btn active">Tous</button>
+        <button type="submit" class="filter-btn">Tous</button>
         <?php
        require 'liaison.php'; 
       try{
@@ -123,7 +124,7 @@
            <div class="card">
         <div class="card-img">
           <img src="image/<?php echo htmlspecialchars($row['image']); ?>" alt="" width="100%">
-        </div>
+          </div>
         <div class="card-body">
           <input type="hidden" name="qte" value="1" min="1">
           <input type="hidden" name="idprod" value="<?php echo $row['idprod']; ?>">
@@ -165,22 +166,23 @@
         <span class="brand-name">ShopStyle</span>
         <p>Votre destination mode en ligne</p>
       </div>
+
       <div class="footer-col">
         <h4>Boutique</h4>
         <ul>
           <li><a href="#">Nouveautés</a></li>
           <li><a href="#">Promotions</a></li>
-          <li><a href="#">Collections</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
         <h4>Service client</h4>
         <ul>
           <li><a href="#">Contact</a></li>
-          <li><a href="#">Livraison</a></li>
           <li><a href="#">Retours</a></li>
         </ul>
       </div>
+
       <div class="footer-newsletter">
         <h4>Newsletter</h4>
         <p>Restez informé des nouveautés</p>
@@ -190,6 +192,7 @@
         </div>
       </div>
     </div>
+
     <div class="footer-bottom">
       © 2026 ShopStyle. Tous droits réservés.
     </div>

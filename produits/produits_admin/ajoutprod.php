@@ -490,7 +490,7 @@
 </head>
 <body>
 
-  <!-- ════ SIDEBAR ════ -->
+<!-- ════ SIDEBAR ════ -->
   <aside class="sidebar">
     <div class="brand">
       <h1>ShopStyle Admin</h1>
@@ -506,7 +506,7 @@
         Dashboard
       </a>
 
-      <a href="produits.php" class="nav-link active">
+      <a href="ajoutprod.php" class="nav-link active">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
@@ -514,7 +514,7 @@
         Produits
       </a>
 
-      <a href="commandes.php" class="nav-link">
+      <a href="cmd.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
@@ -523,7 +523,7 @@
         Commandes
       </a>
 
-      <a href="clients.php" class="nav-link">
+      <a href="clt.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
           <circle cx="9" cy="7" r="4"/>
@@ -534,21 +534,15 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <a href="../../index.php" class="nav-link">
+      <a href="index.php" class="nav-link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
         Retour au site
       </a>
-      <a href="parametres.php" class="nav-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-        Paramètres
-      </a>
-      <a href="../../Authentification/connect_admin.php" class="nav-link danger">
+    
+      <a href="logout.php" class="nav-link danger">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -556,24 +550,11 @@
         Déconnexion
       </a>
     </div>
-  </aside>
-
+  </aside>  
   <!-- ════ TOPBAR ════ -->
   <header class="topbar">
-    <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input type="text" placeholder="Rechercher..." />
-    </div>
     <div class="topbar-right">
-      <button class="notif-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-        </svg>
-        <span class="notif-dot"></span>
-      </button>
+      <?php require 'nocticouleur.php'?>
       <div class="user-info">
         <div class="avatar">A</div>
         <div class="user-text">
@@ -582,14 +563,15 @@
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <!-- ════ MAIN ════ -->
-  <main class="main">
+<!-- MAIN -->
+<main class="main">
 
     <!-- Page header -->
     <div class="page-header">
-      <a href="produits.php" class="back-btn">
+      <a href="creer_produit.php" class="back-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 18l-6-6 6-6"/>
         </svg>
@@ -600,6 +582,7 @@
     if (!empty($_POST['nom']) && !empty($_POST['categorie']) && !empty($_POST['statut']) 
         && !empty($_POST['stock']) && !empty($_POST['prix']) && !empty($_POST['description'])) {
     $nomp = $_POST['nom'];
+    $seuil=$_POST['seuil'];
     $prix = $_POST['prix'];
     $description = $_POST['description'];
     $stock = $_POST['stock'];
@@ -611,9 +594,9 @@
         $target_file = $target_dir . $image;
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            $stmt = $com->prepare("INSERT INTO produit (nomprod, prix, description, image, stock, statut, id_cat)
-                       VALUES (?, ?, ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$nomp, $prix, $description, $image, $stock, $statut, $categorie])) {
+            $stmt = $com->prepare("INSERT INTO produit (nomprod, prix, description, image, seuil, stock, statut, id_cat)
+                       VALUES (?, ?, ?, ?, ?, ?, ? , ?)");
+        if ($stmt->execute([$nomp, $prix, $description, $image, $seuil, $stock, $statut, $categorie])) {
                 echo "     ---notification:Produit ajouté avec succès !";
             } else {
                 echo "    ---Erreur lors de l'insertion.";
@@ -635,10 +618,10 @@
     <form method="POST" action="ajoutprod.php" enctype="multipart/form-data">
     <div class="content-grid">
 
-      <!-- ── LEFT : Formulaire ── -->
+      <!-- GAUCHE -->
       <div>
 
-        <!-- Informations générales -->
+        <!-- Infos générales -->
         <div class="card">
           <h3>Informations générales</h3>
 
@@ -678,9 +661,7 @@
                   <option>actif</option>
                   <option>archive</option>
                 </select>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </div>
             </div>
           </div>
@@ -694,6 +675,10 @@
               <label>Stock <span class="req">*</span></label>
               <input name="stock" type="number" placeholder="100" min="0" />
             </div>
+            <div class="field">
+              <label>Seuil <span class="req">*</span></label>
+              <input name="seuil" type="number" placeholder="100" min="0" />
+            </div>
           </div>
 
           <div class="field">
@@ -702,7 +687,7 @@
           </div>
         </div>
 
-        <!-- Images -->
+        <!-- Image -->
         <div class="card">
               <label for="image">Image du produit <span class="req">*</span></label>
               <input class="upload-zone" type="file" name="image" id="file-input" accept="image/*" />
@@ -710,53 +695,16 @@
           <p class="upload-hint">Recommandé : Images carrées de 1000x1000px minimum</p>
         </div>
 
-        <!-- Variantes -->
-        <div class="card">
-          <h3>Variantes</h3>
-
-          <div class="variant-group">
-            <p class="variant-label">Tailles disponibles</p>
-            <div class="chips">
-              <span class="chip" onclick="toggleChip(this)">XS</span>
-              <span class="chip" onclick="toggleChip(this)">S</span>
-              <span class="chip" onclick="toggleChip(this)">M</span>
-              <span class="chip" onclick="toggleChip(this)">L</span>
-              <span class="chip" onclick="toggleChip(this)">XL</span>
-              <span class="chip" onclick="toggleChip(this)">XXL</span>
-            </div>
-          </div>
-
-          <div class="variant-group">
-            <p class="variant-label">Couleurs disponibles</p>
-            <div class="chips">
-              <span class="chip" onclick="toggleChip(this)">Noir</span>
-              <span class="chip" onclick="toggleChip(this)">Blanc</span>
-              <span class="chip" onclick="toggleChip(this)">Gris</span>
-              <span class="chip" onclick="toggleChip(this)">Bleu</span>
-              <span class="chip" onclick="toggleChip(this)">Rouge</span>
-              <span class="chip" onclick="toggleChip(this)">Vert</span>
-              <span class="chip" onclick="toggleChip(this)">Rose</span>
-              <span class="chip" onclick="toggleChip(this)">Violet</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+        
 
       <!-- ── RIGHT : Aperçu ── -->
 
 
       <div class="preview-card">
         <h3>Aperçu</h3>
-
-        <div class="preview-img">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 16 12 12 8 16"/>
-            <line x1="12" y1="12" x2="12" y2="21"/>
-            <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-          </svg>
+        <div class="preview-img" id="previewImgWrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
         </div>
-
         <div class="preview-rows">
           <div class="preview-row">
             <p>Catégorie</p>
@@ -783,7 +731,6 @@
             <p id="prev-colors" class="dash">—</p>
           </div>
         </div>
-
         <hr class="divider" />
         <button class="btn-create">Créer le produit</button>
         <a href="" class="btn-cancel">Annuler</a>
@@ -793,20 +740,29 @@
     </form>
   </main>
 
-  <script>
-    // Toggle chip actif
-    function toggleChip(el) {
-      el.classList.toggle('active');
-      updatePreview();
-    }
+</main>
 
-    // Mise à jour aperçu en temps réel
-    function updatePreview() {
-      // Nom
-      const name = document.querySelector('input[placeholder="Ex: T-Shirt Premium"]').value;
-      const pName = document.getElementById('prev-name');
-      pName.textContent = name || '—';
-      pName.className = name ? '' : 'dash';
+<script>
+  // ── Aperçu image ──
+  function previewImage(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrap = document.getElementById('previewImgWrap');
+        wrap.innerHTML = `<img src="${e.target.result}" alt="aperçu" />`;
+        document.getElementById('uploadZone').innerHTML =
+          `<img src="${e.target.result}" alt="aperçu" /><input type="file" id="file-input" name="image" accept="image/*" style="display:none" onchange="previewImage(this)" />`;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // ── Chips variantes → hidden inputs ──
+  function toggleChip(el, group) {
+    el.classList.toggle('active');
+    updateHiddenInputs(group);
+    updatePreview();
+  }
 
       // Prix
       const price = document.querySelector('input[placeholder="5000"]').value;
@@ -843,6 +799,37 @@
     document.querySelectorAll('input, select, textarea').forEach(el => {
       el.addEventListener('input', updatePreview);
     });
-  </script>
+  }
+
+  // ── Aperçu texte ──
+  function updatePreview() {
+    const name  = document.querySelector('input[name="nom"]').value;
+    const price = document.querySelector('input[name="prix"]').value;
+    const stock = document.querySelector('input[name="stock"]').value;
+    const cat   = document.querySelector('select[name="categorie"]').value;
+
+    const el = (id, val, fallback='—') => {
+      const p = document.getElementById(id);
+      p.textContent = val || fallback;
+      p.className   = val ? '' : 'dash';
+    };
+
+    el('prev-name', name);
+    el('prev-price', price ? price + '€' : '');
+    el('prev-stock', stock);
+    document.getElementById('prev-cat').textContent = cat;
+
+    const sizes  = [...document.querySelectorAll('#taillesChips  .chip.active')].map(c => c.dataset.val);
+    const colors = [...document.querySelectorAll('#couleursChips .chip.active')].map(c => c.dataset.val);
+    el('prev-sizes',  sizes.join(', '));
+    el('prev-colors', colors.join(', '));
+  }
+
+  document.querySelectorAll('input[name="nom"], input[name="prix"], input[name="stock"], select[name="categorie"]')
+    .forEach(el => el.addEventListener('input', updatePreview));
+
+  // Init aperçu si données récupérées (après erreur)
+  updatePreview();
+</script>
 </body>
 </html>

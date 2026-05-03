@@ -1,8 +1,66 @@
 <?php
+session_start();
        require '../liaison.php';
+       if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'client') {
+    header('Location: ../Authentification/connect_client.php');
+    exit;
+}
+        $ref_uti=$_SESSION['ref_uti'];
        $total=0;
       $qte=1;
-       $id=4; 
+      if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['total'])){
+        $date    = date('Y-m-d H:i:s');
+        $total = (int)($_GET['total']);
+        $stmt = $com->prepare("SELECT stock, seuil FROM produit JOIN panier ON produit.idprod=panier.idprod WHERE panier.ref_uti = ? AND stock<=seuil LIMIT 1");
+        $stmt->execute([$ref_uti]);
+        if ($stmt->fetch()) {
+            $statut='en_attente';
+            try{
+        $stmtProd = $com->query("SELECT * FROM produit");
+        $insertNotif = $com->prepare("INSERT INTO notification (ref_uti, message, lu) VALUES (?, ?, ?)");
+        while ($row = $stmtProd->fetch(PDO::FETCH_ASSOC)) {
+            if ($row['seuil'] >= $row['stock']) {
+                $description = 'seuil atteint pour le produit '.$row['nomprod'].', seuil :'.$row['seuil'].', quantite :'.$row['stock'];
+                $insertNotif->execute([5, $description, 'non_lu']);
+            }
+        }
+
+            } catch (PDOException $e) {
+                echo "Erreur : " . $e->getMessage();
+            }
+        } else {
+          $statut='validee';
+          $stmt = $com->prepare("SELECT idprod, quantite FROM panier WHERE ref_uti = ?");
+          $stmt->execute([$ref_uti]);
+
+          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              $idprod   = $row['idprod'];
+              $quantite = $row['quantite'];
+              $update = $com->prepare("UPDATE produit SET stock = stock - ? WHERE idprod = ?");
+              $update->execute([$quantite, $idprod]);
+          }
+        }
+        $stmt = $com->prepare("INSERT INTO commande (ref_uti, date_commande, total ,statut) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$ref_uti, $date,$total,$statut]);
+        $id_commande = $com->lastInsertId();
+
+        $stmt = $com->prepare("SELECT idprod, quantite FROM panier WHERE ref_uti = ?");
+        $stmt->execute([$ref_uti]);
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $insert = $com->prepare("INSERT INTO commande_produit (id_commande, idprod, quantite, prix_unitaire) 
+                                    VALUES (?, ?, ?, (SELECT prix FROM produit WHERE idprod = ?))");
+            $insert->execute([$id_commande, $row['idprod'], $row['quantite'], $row['idprod']]);
+
+        }
+
+
+        $com->prepare("DELETE FROM panier WHERE ref_uti = ?")->execute([$ref_uti]);
+        $mesg='Achat en traitement, veuillez verifier "vos commandes"';
+        header("Location: affiche_panier.php");
+            exit;
+      }else
        if (isset($_POST['delete'])) {
           $idpanier=$_POST['idpanier'];
             $stmt = $com->prepare("DELETE FROM panier WHERE idpanier=?");
@@ -18,12 +76,11 @@
                     exit;
                     }else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['idprod'])) {
                         $id_prod=$_POST['idprod'];
-                        $ref_uti=4;
                         $quantite=$_POST['qte'];
                           $sql = "INSERT INTO panier (ref_uti, idprod, quantite) VALUES(?,?,?)";
                           $stmt = $com->prepare($sql);
                           $stmt->execute([$ref_uti,$id_prod,$quantite]);
-                          header("Location: affiche_panier.php");
+                          header("Location: ../index.php");
                           exit;
                           }
 ?>
@@ -392,7 +449,6 @@
     <h1 class="cart-title">Mon Panier</h1>
     <p class="cart-count"><?php
         require '../liaison.php';
-        $ref_uti=4;
         try {
     $stmt = $com->prepare("SELECT COUNT(idpanier) AS nb FROM panier WHERE ref_uti = ?");
     $stmt->execute([$ref_uti]);
@@ -403,7 +459,10 @@
           echo "Erreur : " . $e->getMessage();
       }
       ?> articles dans votre panier</p>
-
+    <p><?php if (isset($mesg)){
+          echo $mesg;
+    } 
+    ?></p>
     <div class="layout">
 
       <!-- LEFT: Items -->
@@ -411,7 +470,7 @@
       <?php
       try{
          $stmt = $com->prepare("SELECT * FROM panier JOIN produit ON panier.idprod = produit.idprod JOIN categorie ON categorie.id_cat = produit.id_cat WHERE ref_uti = ? ");
-          $stmt->execute([$id]);  
+          $stmt->execute([$ref_uti]);  
          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               ?>
               <form method="POST" action="affiche_panier.php">
@@ -422,7 +481,7 @@
           <div class="item-info">
             <h3><?php echo htmlspecialchars($row['nomprod']); ?></h3>
             <p class="item-cat"><?php echo htmlspecialchars($row['nom']); ?></p>
-            <p class="item-meta"> Couleur: <strong><?php echo htmlspecialchars($row['couleur']); ?></strong></p>
+          
             <div class="item-bottom">
               <div class="qty">
                 <button type ="button" class="qty-btn" onclick="changeQty(this,-1)">−</button>
@@ -512,7 +571,7 @@
           </a>
         </div>
 
-        <a href="#" class="btn-pay">
+        <a href="affiche_panier.php?total=<?php echo $total;?>" class="btn-pay">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
           </svg>
