@@ -113,11 +113,26 @@
       try{
         if (isset($_POST['cate_retour']) && ($_SERVER["REQUEST_METHOD"] == "POST")){
           $cate=$_POST['cate_retour'];
-          $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE categorie.nom = ? ");
+          $stmt = $com->prepare("SELECT categorie.nom ,produit.idprod,produit.image, produit.nomprod, produit.prix, COUNT(commande_produit.idprod) AS nb
+FROM commande_produit
+RIGHT JOIN produit ON commande_produit.idprod = produit.idprod
+INNER JOIN categorie ON produit.id_cat = categorie.id_cat
+WHERE categorie.nom = ?
+GROUP BY produit.idprod, produit.nomprod, produit.prix
+ORDER BY nb DESC
+LIMIT 5;");
           $stmt->execute([$cate]);
         }else {
-            $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ");
+            $stmt = $com->query("SELECT categorie.nom, produit.idprod,produit.image, produit.nomprod, produit.prix, COUNT(commande_produit.idprod) AS nb
+FROM commande_produit
+RIGHT JOIN produit ON commande_produit.idprod = produit.idprod
+INNER JOIN categorie ON produit.id_cat = categorie.id_cat
+GROUP BY produit.idprod, produit.nomprod, produit.prix
+ORDER BY nb DESC
+LIMIT 5;
+");
         }
+        if ($stmt) { 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               ?>
             <form method="post" action="panier/selectSQL.php">
@@ -151,7 +166,9 @@
           </form>
           <?php
                 }
-            } catch (PDOException $e) {
+            } else {
+    print_r($com->errorInfo());
+}} catch (PDOException $e) {
                 echo "Erreur : " . $e->getMessage();
             }
             ?>
@@ -170,27 +187,20 @@
       <div class="footer-col">
         <h4>Boutique</h4>
         <ul>
-          <li><a href="#">Nouveautés</a></li>
-          <li><a href="#">Promotions</a></li>
+          <li><a href="produits/produits utilisateur/nouveaute.php">Nouveautés</a></li>
+          <li><a href="produits/produits_admin/ajoutprod.php">Toute la boutique</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4>Service client</h4>
+        <h4>Contact</h4>
         <ul>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Retours</a></li>
+          <li><a>admin@shop.com<a></li>
+          <li><a>+228 70009656<a></li>
         </ul>
       </div>
 
-      <div class="footer-newsletter">
-        <h4>Newsletter</h4>
-        <p>Restez informé des nouveautés</p>
-        <div class="newsletter-row">
-          <input type="email" placeholder="Email" />
-          <button>OK</button>
-        </div>
-      </div>
+      
     </div>
 
     <div class="footer-bottom">

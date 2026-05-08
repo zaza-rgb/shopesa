@@ -957,7 +957,6 @@ $cat_colors = [
       font-family: 'Sora', sans-serif;
       margin-top: 2px;
     }
-
     /* ══════════════════════════════
        RESPONSIVE
     ══════════════════════════════ */
@@ -998,8 +997,8 @@ $cat_colors = [
   <a href="../../index.php" class="navbar-brand">ShopStyle</a>
   <ul class="navbar-links">
     <li><a href="../../index.php">Accueil</a></li>
-    <li><a href="" class="active">Boutique</a></li>
-    <li><a href="nouveaute.php">Nouveautés</a></li>
+    <li><a href="affprod.php">Boutique</a></li>
+    <li><a href="nouveaute.php" class="active">Nouveautés</a></li>
   </ul>
   <div class="navbar-actions">
      <a href="../noctification.php" class="cart-btn" title="Mon panier">
@@ -1078,7 +1077,6 @@ $cat_colors = [
       <?php endif; ?>
 
     </div>
-
 </nav>
 
 <!-- ════ HERO ════ -->
@@ -1087,7 +1085,7 @@ $cat_colors = [
     <div class="hero-title">
       <h1>
         <span>Notre collection</span>
-        Tous les produits
+        Toutes les nouveautées
       </h1>
     </div>
     <div class="hero-count">
@@ -1131,25 +1129,6 @@ $cat_colors = [
 </div>
 
 <!-- Filtres catégories -->
-<div class="cat-filters">
-  <form method="post" action="">
-        <button type="submit" class="cat-btn">Tous</button>
-        <?php
-      try{
-         $stmt = $com->query("SELECT nom FROM categorie ");
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-              ?>
-              <button type="submit" name="cate_retour" value="<?php echo $row['nom']; ?>" class="cat-btn">
-                <?php echo $row['nom']; ?>
-              </button>
-              <?php
-                }
-            } catch (PDOException $e) {
-                echo "Erreur : " . $e->getMessage();
-            }
-            ?>
-            </form>
-</div>
 
 <!-- Barre résultats -->
 <div class="results-bar">
@@ -1185,10 +1164,10 @@ $cat_colors = [
       try{
         if (isset($_POST['cate_retour']) && ($_SERVER["REQUEST_METHOD"] == "POST")){
           $cate=$_POST['cate_retour'];
-          $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE categorie.nom = ? ");
+          $stmt = $com->prepare("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat WHERE categorie.nom = ? ORDER BY produit.idprod DESC LIMIT 5");
           $stmt->execute([$cate]);
         }else {
-            $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ");
+            $stmt = $com->query("SELECT * FROM produit RIGHT JOIN categorie ON produit.id_cat = categorie.id_cat ORDER BY produit.idprod DESC LIMIT 5");
         }
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               ?>
@@ -1258,7 +1237,7 @@ $cat_colors = [
   </div>
 </div>
 
-<!-- ════ TOAST ════ -->
+
 <div class="toast" id="toast">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   <span id="toastMsg">Produit ajouté au panier !</span>

@@ -228,10 +228,10 @@ session_start();
 
   <!-- Liens nav -->
   <ul class="navbar-links">
-    <li><a href="/Shopesa/index.php">Accueil</a></li>
+    <li><a href="/Shopesa/index.php" class="active">Accueil</a></li>
     <li><a href="../Shopesa/produits/produits utilisateur/affprod.php">Boutique</a></li>
-    <li><a href="#">Nouveautés</a></li>
-    <li><a href="#">Promotions</a></li>
+    <li><a href="../Shopesa/produits/produits utilisateur/nouveaute.php">Nouveautés</a></li>
+
   </ul>
 
   <!-- Actions droite -->
@@ -297,10 +297,7 @@ session_start();
             <p><?= htmlspecialchars($_SESSION['email']) ?></p>
           </div>
           <hr class="dropdown-divider" />
-          <a href="#">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Mon profil
-          </a>
+          
           <a href="/Shopesa/panier/histo.php">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Mes commandes
@@ -324,17 +321,7 @@ session_start();
     </div>
 
     <!-- Lien Admin (visible uniquement si admin connecté, sinon lien discret) -->
-    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-      <a href="/Shopesa/produits/produits_admin/dashboard.php" class="admin-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Admin
-      </a>
-    <?php else: ?>
-      <a href="/Shopesa/Authentification/connect_admin.php" class="admin-link">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        Admin
-      </a>
-    <?php endif; ?>
+   
 
   </div>
 </nav>

@@ -334,7 +334,62 @@
     tbody td {
       padding: 14px 16px 14px 0;
       font-size: 0.87rem;
-    }
+
+
+    }/* Style général des boutons */
+td button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Icônes SVG à l'intérieur */
+td button svg {
+  stroke: #fff;
+  width: 18px;
+  height: 18px;
+}
+
+/* Bouton Mettre à jour */
+.updatelink {
+  background-color: #28a745; /* vert */
+}
+
+.updatelink:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.updatelink:focus {
+  outline: 2px solid #155724;
+}
+
+/* Bouton Supprimer */
+.delete-link {
+  background-color: #dc3545; /* rouge */
+  margin-left: 6px;
+}
+
+.delete-link:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.delete-link:focus {
+  outline: 2px solid #721c24;
+}
+
+/* Effet visuel quand on clique */
+td button:active {
+  transform: scale(0.95);
+}
+
 
     .order-id { color: var(--muted); font-weight: 500; }
 
@@ -570,7 +625,7 @@
               ?>
           <tr>
             <td class="order-id"><?php echo htmlspecialchars($row['idprod']); ?></td>
-            <td><td><a href="../../panier/detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>">
+            <td><a href="../../panier/detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>">
                 <?php echo htmlspecialchars($row['nomprod']); ?></td>
             <td><?php echo htmlspecialchars($row['prix']); ?></td>
             <td><?php echo htmlspecialchars($row['nom']); ?></td>
@@ -629,7 +684,7 @@ LIMIT 5;
               ?>
           <tr>
             <td class="order-id"><?php echo htmlspecialchars($row['idprod']); ?></td>
-            <td><td><a href="../../panier/detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>">
+            <td><a href="../../panier/detai.php?id=<?php echo htmlspecialchars($row['idprod']); ?>">
                 <?php echo htmlspecialchars($row['nomprod']); ?></td>
             <td><?php echo htmlspecialchars($row['prix']); ?></td>
             <td><?php echo htmlspecialchars($row['nom']); ?></td>

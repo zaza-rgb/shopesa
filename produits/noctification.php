@@ -1,8 +1,9 @@
 <?php
 session_start();
        require '../liaison.php';
-       if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-    $ref_uti=5;
+       if (!isset($_SESSION['role'])) {
+    header('Location: ../Authentification/connect_client.php');
+    exit;
 }
         $ref_uti=$_SESSION['ref_uti'];
        if (isset($_POST['delete'])) {
@@ -89,13 +90,24 @@ session_start();
 
     /* ── LAYOUT ── */
     .page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 36px 48px 64px;
-    }
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #f8f6f6;
+}
 
-    .cart-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
-    .cart-count { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+    .cart-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.cart-count {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 15px 0;
+  color: #f3eeee;
+}
 
     .layout {
       display: grid;
@@ -105,44 +117,43 @@ session_start();
     }
 
     /* ── CART ITEMS ── */
-    .items { display: flex; flex-direction: column; gap: 16px; }
+    /* Layout des items */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-    .item-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-    }
+/* Carte notification */
+.item-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s ease-in-out;
+  width: 100%; 
+}
 
-    .item-img {
-      width: 90px;
-      height: 90px;
-      border-radius: 10px;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-decoration: none;
-    }
+.item-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-    .item-info { flex: 1; }
-    .item-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 3px; }
-    .item-cat { font-size: 0.78rem; color: var(--muted); margin-bottom: 8px; }
-    .item-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
-    .item-meta strong { color: var(--text); font-weight: 600; }
+/* Infos notification */
+.item-info h3 {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
 
-    .item-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.item-info p {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: #333;
+}
 
     /* ── QUANTITE ── */
     .qty {
@@ -186,51 +197,43 @@ session_start();
 
     /* ── SUPPRIMER → lien ── */
     /* Style commun aux deux boutons */
-.updatelink, .delete-link {
-  background: none;          /* pas de fond par défaut */
-  border: none;              /* pas de bordure */
-  cursor: pointer;           /* curseur main */
-  padding: 6px;              /* espace autour de l’icône */
-  border-radius: 4px;        /* coins arrondis */
-  transition: background 0.2s, transform 0.2s;
+button.updatelink,
+button.delete-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-left: 6px;
 }
 
-/* Icônes SVG héritent de la couleur */
-.updatelink svg, .delete-link svg {
-  stroke: #333;              /* couleur par défaut */
-  width: 20px;
-  height: 20px;
+button.updatelink svg,
+button.delete-link svg {
+  stroke: #fff;
 }
 
-/* Bouton Mettre à jour */
-.updatelink:hover {
-  background: #e0f7e9;       /* vert pâle au survol */
-  transform: scale(1.1);     /* petit zoom */
+/* Mettre à jour */
+button.updatelink {
+  background-color: #28a745;
+  color: #fff;
 }
-.updatelink svg {
-  stroke: #28a745;           /* vert */
-}
-
-/* Bouton Supprimer */
-.delete-link:hover {
-  background: #fde0e0;       /* rouge pâle au survol */
-  transform: scale(1.1);
-}
-.delete-link svg {
-  stroke: #dc3545;           /* rouge */
+button.updatelink:hover {
+  background-color: #218838;
+  transform: scale(1.05);
 }
 
-    .delete-link {
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      padding: 4px;
-      transition: color .2s;
-      flex-shrink: 0;
-      text-decoration: none;
-    }
-
-    .delete-link:hover { color: #ef5350; }
+/* Supprimer */
+button.delete-link {
+  background-color: #dc3545;
+  color: #fff;
+}
+button.delete-link:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
 
     /* ── SUMMARY ── */
     .summary {
@@ -381,7 +384,7 @@ session_start();
     <p class="cart-count">Non lu</p>
 
 
-    <div class="layout">
+    
 
       <!-- LEFT: Items -->
       <div class="items">
@@ -425,10 +428,9 @@ session_start();
                 echo "Erreur : " . $e->getMessage();
             }
             ?> 
-
-     <br></br>   
+ </div>
  <p class="cart-count">lu</p>
-    </div>
+    
     <div class="items">
       <?php
       try{
